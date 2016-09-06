@@ -14,6 +14,7 @@
 		CF7DD8CD1D7E993200E70B97 /* WallpapersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7DD8CC1D7E993200E70B97 /* WallpapersViewController.swift */; };
 		CF7DD8D11D7E9A4F00E70B97 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7DD8D01D7E9A4F00E70B97 /* DataManager.swift */; };
 		CF7DD8D31D7E9A6000E70B97 /* Wallpaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7DD8D21D7E9A6000E70B97 /* Wallpaper.swift */; };
+		CFC2B3E11D7EA1EF00FC318C /* WallpaperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC2B3E01D7EA1EF00FC318C /* WallpaperCell.swift */; };
 		E8DADF1CA1E1F2584A23DE04 /* Pods_Red_Walls.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 196CE55B30E875B2B563B010 /* Pods_Red_Walls.framework */; };
 /* End PBXBuildFile section */
 
@@ -30,6 +31,7 @@
 		CF7DD8CC1D7E993200E70B97 /* WallpapersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WallpapersViewController.swift; sourceTree = "<group>"; };
 		CF7DD8D01D7E9A4F00E70B97 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		CF7DD8D21D7E9A6000E70B97 /* Wallpaper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Wallpaper.swift; sourceTree = "<group>"; };
+		CFC2B3E01D7EA1EF00FC318C /* WallpaperCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WallpaperCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 		CF7DD8C91D7E989D00E70B97 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				CFC2B3E01D7EA1EF00FC318C /* WallpaperCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -257,6 +260,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CFC2B3E11D7EA1EF00FC318C /* WallpaperCell.swift in Sources */,
 				CF7DD8B71D7E97FE00E70B97 /* AppDelegate.swift in Sources */,
 				CF7DD8D11D7E9A4F00E70B97 /* DataManager.swift in Sources */,
 				CF7DD8D31D7E9A6000E70B97 /* Wallpaper.swift in Sources */,

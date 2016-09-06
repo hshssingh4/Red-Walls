@@ -10,5 +10,9 @@ import UIKit
 
 // This class represents a single wallpaper object
 class Wallpaper: NSObject {
+    var username: String
     
+    init(dataDict: NSDictionary) {
+        username = dataDict["author"] as! String
+    }
 }
