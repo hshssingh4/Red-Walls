@@ -13,6 +13,7 @@ class Wallpaper: NSObject {
     var username: String
     var sourceImageURL: NSURL?
     var title: String
+    var id: String
     
     
     init(dataDict: NSDictionary) {
@@ -21,12 +22,11 @@ class Wallpaper: NSObject {
         if imagesDict != nil {
             imagesDict = (imagesDict as! NSArray)[0] as! NSDictionary
         }
-        
         if imagesDict != nil {
             sourceImageURL = NSURL(string: (imagesDict!!["source"]!!["url"] as! String))
         }
         
-        
         title = dataDict["title"] as! String
+        id = dataDict["id"] as! String
     }
 }

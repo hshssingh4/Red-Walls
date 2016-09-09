@@ -26,4 +26,20 @@ class DataManager: NSObject {
     func addFavorite(wallpaper: Wallpaper) {
         favorites.append(wallpaper)
     }
+    
+    /**
+     This method removes a wallpaper from the favories array.
+     */
+    func removeFavorite(index: Int) {
+        favorites.removeAtIndex(index)
+    }
+    
+    func contains(wp: Wallpaper) -> Bool {
+        for wallpaper in wallpapers {
+            if wallpaper.id == wp.id {
+                return true
+            }
+        }
+        return false
+    }
 }

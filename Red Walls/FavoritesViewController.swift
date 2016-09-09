@@ -20,6 +20,11 @@ class FavoritesViewController: UIViewController, UICollectionViewDataSource, UIC
         favoritesCollectionView.dataSource = self
         favoritesCollectionView.delegate = self
         
+        self.navigationController?.navigationBar.barTintColor = ColorPalette.BrandColor
+        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: ColorPalette.WhiteColor]
+    }
+    
+    override func viewWillAppear(animated: Bool) {
         let wallpapersViewController = (tabBarController?.viewControllers![0] as! UINavigationController).topViewController as! WallpapersViewController
         dataManager = wallpapersViewController.dataManager
         
@@ -30,8 +35,7 @@ class FavoritesViewController: UIViewController, UICollectionViewDataSource, UIC
             favoritesCollectionView.hidden = false
         }
         
-        self.navigationController?.navigationBar.barTintColor = ColorPalette.BrandColor
-        self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: ColorPalette.WhiteColor]
+        self.favoritesCollectionView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {

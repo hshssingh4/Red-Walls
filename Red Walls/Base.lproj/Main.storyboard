@@ -55,10 +55,10 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UZc-fy-icP">
-                                                    <rect key="frame" x="283" y="15" width="60" height="30"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                                    <state key="normal" title="Favorite"/>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UZc-fy-icP">
+                                                    <rect key="frame" x="311" y="11" width="35" height="35"/>
+                                                    <color key="tintColor" red="0.81960784310000001" green="0.81960784310000001" blue="0.81960784310000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <state key="normal" image="FavoriteIcon"/>
                                                     <connections>
                                                         <action selector="onFavoriteButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="mMf-hf-DEL"/>
                                                     </connections>
@@ -68,6 +68,7 @@
                                         </view>
                                         <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
+                                            <outlet property="favoriteButton" destination="UZc-fy-icP" id="IV5-cc-3xe"/>
                                             <outlet property="titleLabel" destination="Lks-6F-hRN" id="JoV-Vd-mGR"/>
                                             <outlet property="usernameLabel" destination="9TD-22-8AQ" id="3RS-cd-Q2q"/>
                                             <outlet property="wallpaperImageView" destination="Ivb-f9-SKO" id="ZDY-W5-atL"/>
@@ -86,7 +87,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1042.5" y="399.5"/>
+            <point key="canvasLocation" x="1086.5" y="386.5"/>
         </scene>
         <!--Favorites-->
         <scene sceneID="qwv-7l-KeQ">
@@ -213,6 +214,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="FavoriteIcon" width="48" height="48"/>
         <image name="SadFace" width="75" height="75"/>
     </resources>
 </document>

@@ -14,6 +14,7 @@ class WallpaperCell: UICollectionViewCell {
     @IBOutlet var wallpaperImageView: UIImageView!
     @IBOutlet var usernameLabel: UILabel!
     @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var favoriteButton: UIButton!
     
     var wallpaper: Wallpaper! {
         didSet {
@@ -26,7 +27,6 @@ class WallpaperCell: UICollectionViewCell {
                 wallpaperImageView.image = UIImage(named: "ImageNotAvailable")
             }
             titleLabel.text = wallpaper.title
-            
         }
     }
 }

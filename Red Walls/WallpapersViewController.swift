@@ -33,7 +33,6 @@ class WallpapersViewController: UIViewController, UICollectionViewDataSource, UI
     
     func loadWallpapers() {
         SVProgressHUD.show() // Show the progress indicator
-        dataManager.wallpapers.removeAll()
         
         let url = NSURL(string: "https://www.reddit.com/r/wallpapers.json")
         let request = NSURLRequest(
@@ -55,7 +54,10 @@ class WallpapersViewController: UIViewController, UICollectionViewDataSource, UI
                     for wallpaperDict in wallpapersDict {
                         let data = wallpaperDict["data"] as! NSDictionary
                         let wallpaper = Wallpaper(dataDict: data)
-                        self.dataManager.addWallpaper(wallpaper)
+                        
+                        if !self.dataManager.contains(wallpaper) {
+                            self.dataManager.addWallpaper(wallpaper)
+                        }
                     }
                     self.wallpapersCollectionView.reloadData()
                 }
@@ -97,13 +99,42 @@ class WallpapersViewController: UIViewController, UICollectionViewDataSource, UI
         // If block for refresh and pulling simultaneously
         if (indexPath.row <= dataManager.wallpapers.count - 1) {
             cell.wallpaper = dataManager.wallpapers[indexPath.row]
+            
+            if dataManager.favorites.contains(dataManager.wallpapers[indexPath.row]) {
+                cell.favoriteButton.setImage(UIImage(named: "FavoriteIcon"), forState: UIControlState.Normal)
+            }
+            else {
+                cell.favoriteButton.setImage(UIImage(named: "UnfavoriteIcon"), forState: UIControlState.Normal)
+            }
         }
         
         return cell
     }
     
     @IBAction func onFavoriteButtonPressed(sender: UIButton) {
+        let cell = sender.superview?.superview as! WallpaperCell
+        let indexPath = self.wallpapersCollectionView.indexPathForCell(cell)
+        let wallpaper = dataManager.wallpapers[(indexPath?.row)!]
         
+        if dataManager.favorites.contains(wallpaper) {
+            let index = dataManager.favorites.indexOf(wallpaper)!
+            dataManager.removeFavorite(index)
+            
+            sender.setImage(UIImage(named: "UnavoriteIcon"), forState: UIControlState.Normal)
+            let transition = CATransition()
+            transition.duration = 0.3
+            transition.type = kCATransitionFade
+            sender.imageView?.layer.addAnimation(transition, forKey: kCATransition)
+        }
+        else {
+            dataManager.addFavorite(wallpaper)
+            
+            sender.setImage(UIImage(named: "FavoriteIcon"), forState: UIControlState.Normal)
+            let transition = CATransition()
+            transition.duration = 0.3
+            transition.type = kCATransitionFade
+            sender.imageView?.layer.addAnimation(transition, forKey: kCATransition)
+        }
     }
     
     // MARK: - Navigation
