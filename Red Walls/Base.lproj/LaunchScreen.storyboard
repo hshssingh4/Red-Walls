@@ -17,11 +17,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="LaunchIcon" translatesAutoresizingMaskIntoConstraints="NO" id="mVU-6Z-Vvx">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchIcon" translatesAutoresizingMaskIntoConstraints="NO" id="mVU-6Z-Vvx">
                                 <rect key="frame" x="112" y="259" width="150" height="150"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="A0w-o8-Q0o"/>
+                                    <constraint firstAttribute="height" constant="150" id="JSC-ed-Qrv"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.52549019607843139" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="mVU-6Z-Vvx" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="imJ-St-J2j"/>
+                            <constraint firstItem="mVU-6Z-Vvx" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="s5H-HM-Y5y"/>
+                        </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                 </viewController>

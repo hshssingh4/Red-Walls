@@ -20,6 +20,6 @@ struct ColorPalette {
     static let ClearColor = UIColor.clearColor()
     
     struct GradientColors {
-        static let ClearBlack = [UIColor.clearColor().CGColor, UIColor.blackColor().CGColor]
+        static let BlackClear = [UIColor.blackColor().CGColor, UIColor.clearColor().CGColor]
     }
 }

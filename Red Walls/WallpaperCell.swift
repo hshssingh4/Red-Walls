@@ -45,4 +45,9 @@ class WallpaperCell: UICollectionViewCell {
             titleLabel.text = wallpaper.title
         }
     }
+    
+    override func awakeFromNib() {
+        self.contentView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
+        self.contentView.translatesAutoresizingMaskIntoConstraints = true
+    }
 }
