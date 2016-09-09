@@ -18,4 +18,8 @@ struct ColorPalette {
     static let OrangeColor = UIColor.orangeColor()
     static let GreenColor = UIColor.greenColor()
     static let ClearColor = UIColor.clearColor()
+    
+    struct GradientColors {
+        static let ClearBlack = [UIColor.clearColor().CGColor, UIColor.blackColor().CGColor]
+    }
 }

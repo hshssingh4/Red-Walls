@@ -14,7 +14,7 @@ class WallpapersViewController: UIViewController, UICollectionViewDataSource, UI
 
     @IBOutlet var wallpapersCollectionView: UICollectionView!
     
-    let dataManager: DataManager = DataManager()
+    var dataManager: DataManager = DataManager()
     var refreshControl: UIRefreshControl!
     
     override func viewDidLoad() {
@@ -29,6 +29,18 @@ class WallpapersViewController: UIViewController, UICollectionViewDataSource, UI
         
         self.navigationController?.navigationBar.barTintColor = ColorPalette.BrandColor
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: ColorPalette.WhiteColor]
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        
+        if let dm = NSUserDefaults.standardUserDefaults().objectForKey("dataManager") as? DataManager {
+            dataManager = dm
+        }
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        NSUserDefaults.standardUserDefaults().setObject(dataManager, forKey: "dataManager")
+        NSUserDefaults.standardUserDefaults().synchronize()
     }
     
     func loadWallpapers() {
@@ -122,7 +134,7 @@ class WallpapersViewController: UIViewController, UICollectionViewDataSource, UI
             
             sender.setImage(UIImage(named: "UnavoriteIcon"), forState: UIControlState.Normal)
             let transition = CATransition()
-            transition.duration = 0.3
+            transition.duration = 0.2
             transition.type = kCATransitionFade
             sender.imageView?.layer.addAnimation(transition, forKey: kCATransition)
         }
@@ -131,10 +143,11 @@ class WallpapersViewController: UIViewController, UICollectionViewDataSource, UI
             
             sender.setImage(UIImage(named: "FavoriteIcon"), forState: UIControlState.Normal)
             let transition = CATransition()
-            transition.duration = 0.3
+            transition.duration = 0.2
             transition.type = kCATransitionFade
             sender.imageView?.layer.addAnimation(transition, forKey: kCATransition)
         }
+        self.wallpapersCollectionView.reloadData()
     }
     
     // MARK: - Navigation

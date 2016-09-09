@@ -8,6 +8,7 @@
 
 import UIKit
 import AFNetworking
+import SVProgressHUD
 
 class WallpaperCell: UICollectionViewCell {
     
@@ -15,17 +16,32 @@ class WallpaperCell: UICollectionViewCell {
     @IBOutlet var usernameLabel: UILabel!
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var favoriteButton: UIButton!
+    @IBOutlet var labelsView: UIView!
     
     var wallpaper: Wallpaper! {
         didSet {
             usernameLabel.text = wallpaper.username
             wallpaperImageView.clipsToBounds = true
-            if let sourceImageURL = wallpaper.sourceImageURL {
+            /*if let sourceImageURL = wallpaper.sourceImageURL {
                 wallpaperImageView.setImageWithURL(sourceImageURL)
             }
             else {
                 wallpaperImageView.image = UIImage(named: "ImageNotAvailable")
-            }
+            }*/
+    
+            
+            let request = NSURLRequest(URL: wallpaper.sourceImageURL!)
+            wallpaperImageView.setImageWithURLRequest(request, placeholderImage: nil, success: {(request:NSURLRequest!,response:NSHTTPURLResponse?, image:UIImage!) -> Void in
+                if response != nil {
+                    self.wallpaperImageView.image = image
+                }
+                else {
+                    self.wallpaperImageView.image = image
+                }
+                }, failure: nil)
+            
+            
+            
             titleLabel.text = wallpaper.title
         }
     }

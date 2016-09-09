@@ -18,12 +18,17 @@ class Wallpaper: NSObject {
     
     init(dataDict: NSDictionary) {
         username = dataDict["author"] as! String
+        
         var imagesDict = dataDict["preview"]?["images"]
         if imagesDict != nil {
             imagesDict = (imagesDict as! NSArray)[0] as! NSDictionary
         }
         if imagesDict != nil {
-            sourceImageURL = NSURL(string: (imagesDict!!["source"]!!["url"] as! String))
+            let array = (imagesDict!!["resolutions"] as! NSArray)
+            let urlDict = array[array.count - 1] as! NSDictionary
+            let tempString = urlDict["url"] as! String
+            let urlString = tempString.stringByReplacingOccurrencesOfString("amp;", withString: "")
+            sourceImageURL = NSURL(string: urlString)
         }
         
         title = dataDict["title"] as! String
