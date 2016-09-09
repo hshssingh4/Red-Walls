@@ -11,8 +11,22 @@ import UIKit
 // This class represents a single wallpaper object
 class Wallpaper: NSObject {
     var username: String
+    var sourceImageURL: NSURL?
+    var title: String
+    
     
     init(dataDict: NSDictionary) {
         username = dataDict["author"] as! String
+        var imagesDict = dataDict["preview"]?["images"]
+        if imagesDict != nil {
+            imagesDict = (imagesDict as! NSArray)[0] as! NSDictionary
+        }
+        
+        if imagesDict != nil {
+            sourceImageURL = NSURL(string: (imagesDict!!["source"]!!["url"] as! String))
+        }
+        
+        
+        title = dataDict["title"] as! String
     }
 }

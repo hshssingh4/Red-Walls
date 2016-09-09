@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CF25A6A71D824F1400AF20A4 /* FavoriteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF25A6A61D824F1400AF20A4 /* FavoriteCell.swift */; };
+		CF2E54581D8141AA00D04E42 /* WallpaperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2E54571D8141AA00D04E42 /* WallpaperCell.swift */; };
 		CF7DD8B71D7E97FE00E70B97 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7DD8B61D7E97FE00E70B97 /* AppDelegate.swift */; };
 		CF7DD8BC1D7E97FE00E70B97 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF7DD8BA1D7E97FE00E70B97 /* Main.storyboard */; };
 		CF7DD8BE1D7E97FE00E70B97 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF7DD8BD1D7E97FE00E70B97 /* Assets.xcassets */; };
@@ -14,7 +16,8 @@
 		CF7DD8CD1D7E993200E70B97 /* WallpapersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7DD8CC1D7E993200E70B97 /* WallpapersViewController.swift */; };
 		CF7DD8D11D7E9A4F00E70B97 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7DD8D01D7E9A4F00E70B97 /* DataManager.swift */; };
 		CF7DD8D31D7E9A6000E70B97 /* Wallpaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7DD8D21D7E9A6000E70B97 /* Wallpaper.swift */; };
-		CFC2B3E11D7EA1EF00FC318C /* WallpaperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC2B3E01D7EA1EF00FC318C /* WallpaperCell.swift */; };
+		CF867B6E1D8238E700B542D8 /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF867B6D1D8238E700B542D8 /* ColorPalette.swift */; };
+		CF867B721D823A7D00B542D8 /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF867B711D823A7D00B542D8 /* FavoritesViewController.swift */; };
 		E8DADF1CA1E1F2584A23DE04 /* Pods_Red_Walls.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 196CE55B30E875B2B563B010 /* Pods_Red_Walls.framework */; };
 /* End PBXBuildFile section */
 
@@ -22,6 +25,8 @@
 		196CE55B30E875B2B563B010 /* Pods_Red_Walls.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Red_Walls.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		96BB48FA188D4D73E12E5CC1 /* Pods-Red Walls.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Red Walls.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Red Walls/Pods-Red Walls.debug.xcconfig"; sourceTree = "<group>"; };
 		ABB18009FD29BD9D746369AB /* Pods-Red Walls.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Red Walls.release.xcconfig"; path = "Pods/Target Support Files/Pods-Red Walls/Pods-Red Walls.release.xcconfig"; sourceTree = "<group>"; };
+		CF25A6A61D824F1400AF20A4 /* FavoriteCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteCell.swift; sourceTree = "<group>"; };
+		CF2E54571D8141AA00D04E42 /* WallpaperCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WallpaperCell.swift; sourceTree = "<group>"; };
 		CF7DD8B31D7E97FE00E70B97 /* Red Walls.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Red Walls.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF7DD8B61D7E97FE00E70B97 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CF7DD8BB1D7E97FE00E70B97 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -31,7 +36,8 @@
 		CF7DD8CC1D7E993200E70B97 /* WallpapersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WallpapersViewController.swift; sourceTree = "<group>"; };
 		CF7DD8D01D7E9A4F00E70B97 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		CF7DD8D21D7E9A6000E70B97 /* Wallpaper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Wallpaper.swift; sourceTree = "<group>"; };
-		CFC2B3E01D7EA1EF00FC318C /* WallpaperCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WallpaperCell.swift; sourceTree = "<group>"; };
+		CF867B6D1D8238E700B542D8 /* ColorPalette.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
+		CF867B711D823A7D00B542D8 /* FavoritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +81,7 @@
 		CF7DD8B51D7E97FE00E70B97 /* Red Walls */ = {
 			isa = PBXGroup;
 			children = (
+				CF867B6C1D8238C900B542D8 /* Colors */,
 				CFC2B3DF1D7E9EF300FC318C /* Storyboards */,
 				CF7DD8CF1D7E9A0A00E70B97 /* Data */,
 				CF7DD8CE1D7E99E800E70B97 /* Models */,
@@ -91,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				CF7DD8CC1D7E993200E70B97 /* WallpapersViewController.swift */,
+				CF867B711D823A7D00B542D8 /* FavoritesViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -98,7 +106,8 @@
 		CF7DD8C91D7E989D00E70B97 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				CFC2B3E01D7EA1EF00FC318C /* WallpaperCell.swift */,
+				CF2E54571D8141AA00D04E42 /* WallpaperCell.swift */,
+				CF25A6A61D824F1400AF20A4 /* FavoriteCell.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -117,6 +126,14 @@
 				CF7DD8D01D7E9A4F00E70B97 /* DataManager.swift */,
 			);
 			name = Data;
+			sourceTree = "<group>";
+		};
+		CF867B6C1D8238C900B542D8 /* Colors */ = {
+			isa = PBXGroup;
+			children = (
+				CF867B6D1D8238E700B542D8 /* ColorPalette.swift */,
+			);
+			name = Colors;
 			sourceTree = "<group>";
 		};
 		CFC2B3DF1D7E9EF300FC318C /* Storyboards */ = {
@@ -260,11 +277,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CFC2B3E11D7EA1EF00FC318C /* WallpaperCell.swift in Sources */,
+				CF2E54581D8141AA00D04E42 /* WallpaperCell.swift in Sources */,
 				CF7DD8B71D7E97FE00E70B97 /* AppDelegate.swift in Sources */,
+				CF867B721D823A7D00B542D8 /* FavoritesViewController.swift in Sources */,
 				CF7DD8D11D7E9A4F00E70B97 /* DataManager.swift in Sources */,
 				CF7DD8D31D7E9A6000E70B97 /* Wallpaper.swift in Sources */,
+				CF25A6A71D824F1400AF20A4 /* FavoriteCell.swift in Sources */,
 				CF7DD8CD1D7E993200E70B97 /* WallpapersViewController.swift in Sources */,
+				CF867B6E1D8238E700B542D8 /* ColorPalette.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

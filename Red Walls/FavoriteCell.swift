@@ -1,5 +1,5 @@
 //
-//  WallpaperCell.swift
+//  FavoriteCell.swift
 //  Red Walls
 //
 //  Created by Harpreet Singh on 9/8/16.
@@ -7,13 +7,13 @@
 //
 
 import UIKit
-import AFNetworking
 
-class WallpaperCell: UICollectionViewCell {
+class FavoriteCell: UICollectionViewCell {
     
     @IBOutlet var wallpaperImageView: UIImageView!
-    @IBOutlet var usernameLabel: UILabel!
     @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var usernameLabel: UILabel!
+    
     
     var wallpaper: Wallpaper! {
         didSet {

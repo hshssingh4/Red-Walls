@@ -15,7 +15,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+        window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        
+        // Defing the tab bar down below
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let wallpapersNavigationController = storyboard.instantiateViewControllerWithIdentifier("WallpapersNavigationController") as! UINavigationController
+        wallpapersNavigationController.tabBarItem.title = "Wallpapers"
+        wallpapersNavigationController.tabBarItem.image = UIImage(named: "WallpapersIcon")
+        
+        let favoritesNavigationController = storyboard.instantiateViewControllerWithIdentifier("FavoritesNavigationController")
+        favoritesNavigationController.tabBarItem.title = "Favorites"
+        favoritesNavigationController.tabBarItem.image = UIImage(named: "FavoritesIcon")
+        
+        let tabBarController = UITabBarController()
+        tabBarController.viewControllers = [wallpapersNavigationController, favoritesNavigationController]
+        tabBarController.selectedIndex = 0
+        tabBarController.tabBar.tintColor = ColorPalette.BrandColor
+        
+        window?.rootViewController = tabBarController
+        window?.makeKeyAndVisible()
+        
         return true
     }
 

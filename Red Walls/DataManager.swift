@@ -11,11 +11,19 @@ import UIKit
 // This class manages the data component for the app
 class DataManager: NSObject {
     var wallpapers: [Wallpaper] = []
+    var favorites: [Wallpaper] = []
     
     /**
      This method add a wallpaper to the wallpapers array.
      */
     func addWallpaper(wallpaper: Wallpaper) {
         wallpapers.append(wallpaper)
+    }
+    
+    /**
+     This method add a wallpaper to the favories array.
+     */
+    func addFavorite(wallpaper: Wallpaper) {
+        favorites.append(wallpaper)
     }
 }
