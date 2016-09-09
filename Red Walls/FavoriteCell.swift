@@ -13,13 +13,14 @@ class FavoriteCell: UICollectionViewCell {
     @IBOutlet var wallpaperImageView: UIImageView!
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var usernameLabel: UILabel!
+    @IBOutlet var labelsView: UIView!
     
     
     var wallpaper: Wallpaper! {
         didSet {
             usernameLabel.text = wallpaper.username
             wallpaperImageView.clipsToBounds = true
-            if let sourceImageURL = wallpaper.sourceImageURL {
+            if let sourceImageURL = wallpaper.highResolutionImageURL {
                 wallpaperImageView.setImageWithURL(sourceImageURL)
             }
             else {

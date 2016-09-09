@@ -31,17 +31,22 @@ class WallpapersViewController: UIViewController, UICollectionViewDataSource, UI
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: ColorPalette.WhiteColor]
     }
     
-    override func viewWillAppear(animated: Bool) {
+    /**override func viewWillAppear(animated: Bool) {
         
-        if let dm = NSUserDefaults.standardUserDefaults().objectForKey("dataManager") as? DataManager {
-            dataManager = dm
-        }
+        
     }
     
     override func viewWillDisappear(animated: Bool) {
-        NSUserDefaults.standardUserDefaults().setObject(dataManager, forKey: "dataManager")
-        NSUserDefaults.standardUserDefaults().synchronize()
-    }
+        var startIndex = 0
+        let endIndex = (dataManager.favorites.count)
+        while (startIndex < endIndex) {
+            print("yes")
+            let favorite = dataManager.favorites[startIndex]
+            NSUserDefaults.standardUserDefaults().setObject(favorite.dataDictionary, forKey: "dataDict \(index)" )
+            NSUserDefaults.standardUserDefaults().synchronize()
+            startIndex = startIndex + 1
+        }
+    }*/
     
     func loadWallpapers() {
         SVProgressHUD.show() // Show the progress indicator
@@ -129,24 +134,34 @@ class WallpapersViewController: UIViewController, UICollectionViewDataSource, UI
         let wallpaper = dataManager.wallpapers[(indexPath?.row)!]
         
         if dataManager.favorites.contains(wallpaper) {
-            let index = dataManager.favorites.indexOf(wallpaper)!
-            dataManager.removeFavorite(index)
+            let alertController = UIAlertController(title: "Are you sure you want to unfavorite?", message: nil, preferredStyle: .ActionSheet)
+            alertController.addAction(UIAlertAction(title: "Unfavorite", style: .Destructive, handler: { (action) in
+                let index = self.dataManager.favorites.indexOf(wallpaper)!
+                self.dataManager.removeFavorite(index)
+                sender.setImage(UIImage(named: "UnavoriteIcon"), forState: UIControlState.Normal)
+                let transition = CATransition()
+                transition.delegate = self
+                transition.duration = 0.2
+                transition.type = kCATransitionFade
+                sender.imageView?.layer.addAnimation(transition, forKey: kCATransition)
+            }))
+            alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
             
-            sender.setImage(UIImage(named: "UnavoriteIcon"), forState: UIControlState.Normal)
-            let transition = CATransition()
-            transition.duration = 0.2
-            transition.type = kCATransitionFade
-            sender.imageView?.layer.addAnimation(transition, forKey: kCATransition)
+            self.presentViewController(alertController, animated: true, completion: nil)
         }
         else {
             dataManager.addFavorite(wallpaper)
             
             sender.setImage(UIImage(named: "FavoriteIcon"), forState: UIControlState.Normal)
             let transition = CATransition()
+            transition.delegate = self
             transition.duration = 0.2
             transition.type = kCATransitionFade
             sender.imageView?.layer.addAnimation(transition, forKey: kCATransition)
         }
+    }
+    
+    override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
         self.wallpapersCollectionView.reloadData()
     }
     
@@ -156,6 +171,15 @@ class WallpapersViewController: UIViewController, UICollectionViewDataSource, UI
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if let cell = sender as? UICollectionViewCell
+        {
+            let indexPath = wallpapersCollectionView.indexPathForCell(cell)
+            let wallpaper = dataManager.wallpapers[(indexPath?.row)!]
+            let detailsViewController = segue.destinationViewController as! DetailsViewController
+            
+            detailsViewController.wallpaper = wallpaper
+        }
+
     }
     
 

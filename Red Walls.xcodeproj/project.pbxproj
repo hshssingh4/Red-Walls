@@ -18,6 +18,7 @@
 		CF7DD8D31D7E9A6000E70B97 /* Wallpaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7DD8D21D7E9A6000E70B97 /* Wallpaper.swift */; };
 		CF867B6E1D8238E700B542D8 /* ColorPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF867B6D1D8238E700B542D8 /* ColorPalette.swift */; };
 		CF867B721D823A7D00B542D8 /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF867B711D823A7D00B542D8 /* FavoritesViewController.swift */; };
+		CFFF7EFC1D831CCB00AEC67D /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFFF7EFB1D831CCB00AEC67D /* DetailsViewController.swift */; };
 		E8DADF1CA1E1F2584A23DE04 /* Pods_Red_Walls.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 196CE55B30E875B2B563B010 /* Pods_Red_Walls.framework */; };
 /* End PBXBuildFile section */
 
@@ -38,6 +39,7 @@
 		CF7DD8D21D7E9A6000E70B97 /* Wallpaper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Wallpaper.swift; sourceTree = "<group>"; };
 		CF867B6D1D8238E700B542D8 /* ColorPalette.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPalette.swift; sourceTree = "<group>"; };
 		CF867B711D823A7D00B542D8 /* FavoritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
+		CFFF7EFB1D831CCB00AEC67D /* DetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 			children = (
 				CF7DD8CC1D7E993200E70B97 /* WallpapersViewController.swift */,
 				CF867B711D823A7D00B542D8 /* FavoritesViewController.swift */,
+				CFFF7EFB1D831CCB00AEC67D /* DetailsViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -279,6 +282,7 @@
 			files = (
 				CF2E54581D8141AA00D04E42 /* WallpaperCell.swift in Sources */,
 				CF7DD8B71D7E97FE00E70B97 /* AppDelegate.swift in Sources */,
+				CFFF7EFC1D831CCB00AEC67D /* DetailsViewController.swift in Sources */,
 				CF867B721D823A7D00B542D8 /* FavoritesViewController.swift in Sources */,
 				CF7DD8D11D7E9A4F00E70B97 /* DataManager.swift in Sources */,
 				CF7DD8D31D7E9A6000E70B97 /* Wallpaper.swift in Sources */,

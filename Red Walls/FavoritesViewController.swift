@@ -58,8 +58,6 @@ class FavoritesViewController: UIViewController, UICollectionViewDataSource, UIC
         return cell
     }
 
-    
-
     /*
     // MARK: - Navigation
 
