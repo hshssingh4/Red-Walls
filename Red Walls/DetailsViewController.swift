@@ -7,12 +7,17 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 class DetailsViewController: UIViewController {
 
     
     @IBOutlet var sourceImageView: UIImageView!
     @IBOutlet var topView: UIView!
+    @IBOutlet var scrollView: UIScrollView!
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var infoView: UIView!
+    @IBOutlet var contentView: UIView!
     
     var wallpaper: Wallpaper!
     
@@ -20,9 +25,14 @@ class DetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        titleLabel.text = wallpaper.title
         initStatusBarBackgroundView()
         loadImage()
         sourceImageView.clipsToBounds = true
+    }
+    
+    override func viewDidLayoutSubviews() {
+        scrollView.contentSize = CGSize(width: scrollView.frame.size.width, height: infoView.frame.origin.y + infoView.frame.size.height)
     }
 
     override func didReceiveMemoryWarning() {
@@ -35,15 +45,18 @@ class DetailsViewController: UIViewController {
     }
     
     @IBAction func onSaveButtonPressed(sender: UIButton) {
+        SVProgressHUD.show()
         UIImageWriteToSavedPhotosAlbum(sourceImageView.image!, self, #selector(DetailsViewController.saveImage), nil)
     }
     
     func saveImage(image: UIImage, didFinishSavingWithError error: NSError?, contextInfo:UnsafePointer<Void>) {
         if error == nil {
-            let alertController = UIAlertController(title: "Saved", message: "Image saved succesfully.", preferredStyle: .Alert)
+            SVProgressHUD.dismiss()
+            let alertController = UIAlertController(title: "Saved", message: "Saved Succesfully", preferredStyle: .Alert)
             alertController.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
             self.presentViewController(alertController, animated: true, completion: nil)
         } else {
+            SVProgressHUD.dismiss()
             let ac = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .Alert)
             ac.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
             presentViewController(ac, animated: true, completion: nil)
@@ -93,7 +106,6 @@ class DetailsViewController: UIViewController {
                 }, failure: nil)
         }
         else {
-            print("yes")
             sourceImageView.image = UIImage(named: "ImageNotAvailable")
         }
     }

@@ -49,8 +49,6 @@ class WallpapersViewController: UIViewController, UICollectionViewDataSource, UI
     }*/
     
     func loadWallpapers() {
-        SVProgressHUD.show() // Show the progress indicator
-        
         let url = NSURL(string: "https://www.reddit.com/r/wallpapers.json")
         let request = NSURLRequest(
             URL: url!,
@@ -79,10 +77,15 @@ class WallpapersViewController: UIViewController, UICollectionViewDataSource, UI
                     self.wallpapersCollectionView.reloadData()
                 }
             }
+            else {
+                let alertController = UIAlertController(title: "No Internet Connection", message: nil, preferredStyle: .Alert)
+                alertController.addAction(UIAlertAction(title: "Retry", style: .Default, handler: { (action) in
+                    self.loadWallpapers()
+                }))
+                self.presentViewController(alertController, animated: true, completion: nil)
+            }
         })
         task.resume()
-        
-        SVProgressHUD.dismiss() // Hide it when done
     }
     
     func addRefreshControl()
@@ -171,15 +174,13 @@ class WallpapersViewController: UIViewController, UICollectionViewDataSource, UI
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        if let cell = sender as? UICollectionViewCell
-        {
+        if let cell = sender as? UICollectionViewCell {
             let indexPath = wallpapersCollectionView.indexPathForCell(cell)
             let wallpaper = dataManager.wallpapers[(indexPath?.row)!]
             let detailsViewController = segue.destinationViewController as! DetailsViewController
             
             detailsViewController.wallpaper = wallpaper
         }
-
     }
     
 
