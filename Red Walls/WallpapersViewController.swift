@@ -86,7 +86,7 @@ class WallpapersViewController: UIViewController, UICollectionViewDataSource, UI
     func addRefreshControl()
     {
         refreshControl = UIRefreshControl()
-        refreshControl.tintColor = UIColor.blackColor()
+        refreshControl.tintColor = ColorPalette.BlackColor
         refreshControl.addTarget(self, action: #selector(WallpapersViewController.onRefresh), forControlEvents: UIControlEvents.ValueChanged)
         wallpapersCollectionView.insertSubview(refreshControl, atIndex: 0)
     }
@@ -124,6 +124,33 @@ class WallpapersViewController: UIViewController, UICollectionViewDataSource, UI
         }
         
         return cell
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        let height = CGFloat(259)
+        let width = UIScreen.mainScreen().bounds.width - 10
+        return CGSizeMake(width, height)
+    }
+    
+    
+    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        let cell = collectionView.cellForItemAtIndexPath(indexPath)
+        cell?.backgroundColor = ColorPalette.LightGrayColor
+        UIView.animateWithDuration(0.3, animations: {
+            cell?.backgroundColor = ColorPalette.CellColor
+        })
+        
+    }
+    
+    func collectionView(collectionView: UICollectionView, didHighlightItemAtIndexPath indexPath: NSIndexPath) {
+        let cell = collectionView.cellForItemAtIndexPath(indexPath)
+        cell?.backgroundColor = ColorPalette.LightGrayColor
+    }
+    
+    func collectionView(collectionView: UICollectionView, didUnhighlightItemAtIndexPath indexPath: NSIndexPath) {
+        let cell = collectionView.cellForItemAtIndexPath(indexPath)
+        cell?.backgroundColor = ColorPalette.CellColor
     }
     
     @IBAction func onFavoriteButtonPressed(sender: UIButton) {

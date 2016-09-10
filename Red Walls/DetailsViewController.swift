@@ -41,7 +41,6 @@ class DetailsViewController: UIViewController {
         numLikesLabel.text = "\(wallpaper.numLikes)"
         numCommentsLabel.text = "\(wallpaper.numComments)"
         numScoreLabel.text = "\(wallpaper.score)"
-        
     }
     
     func addParallaxEffect() {
