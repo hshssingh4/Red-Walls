@@ -30,7 +30,7 @@ class WallpaperCell: UICollectionViewCell {
             }*/
     
             
-            let request = NSURLRequest(URL: wallpaper.highResolutionImageURL!)
+            let request = NSURLRequest(URL: wallpaper.highResolutionImageURL)
             wallpaperImageView.setImageWithURLRequest(request, placeholderImage: nil, success: {(request:NSURLRequest!,response:NSHTTPURLResponse?, image:UIImage!) -> Void in
                 if response != nil {
                     self.wallpaperImageView.image = image
@@ -38,7 +38,7 @@ class WallpaperCell: UICollectionViewCell {
                 else {
                     self.wallpaperImageView.image = image
                 }
-                }, failure: nil)
+            }, failure: nil)
             
             
             

@@ -21,6 +21,8 @@ class DetailsViewController: UIViewController {
     @IBOutlet var numLikesLabel: UILabel!
     @IBOutlet var numCommentsLabel: UILabel!
     @IBOutlet var numScoreLabel: UILabel!
+    @IBOutlet var closeButton: UIButton!
+    @IBOutlet var saveButton: UIButton!
     
     
     var wallpaper: Wallpaper!
@@ -58,6 +60,35 @@ class DetailsViewController: UIViewController {
         let group = UIMotionEffectGroup()
         group.motionEffects = [horizontalRotation, verticalRotation]
         sourceImageView.addMotionEffect(group)
+    }
+    
+    @IBAction func onContentViewTapGesture(sender: UITapGestureRecognizer) {
+        if topView.hidden == false {
+            UIApplication.sharedApplication().statusBarHidden = true
+            scrollView.scrollEnabled = false
+            UIView.transitionWithView(topView, duration: 0.4, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {() -> Void in
+                self.topView.hidden = true
+                self.closeButton.hidden = true
+                self.saveButton.hidden = true
+            }, completion: nil)
+            UIView.transitionWithView(infoView, duration: 0.4, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {
+                self.infoView.hidden = true
+                self.titleLabel.hidden = true
+            }, completion: nil)
+        }
+        else {
+            UIApplication.sharedApplication().statusBarHidden = false
+            scrollView.scrollEnabled = true
+            UIView.transitionWithView(topView, duration: 0.4, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {() -> Void in
+                self.topView.hidden = false
+                }, completion: {Void in
+                    self.closeButton.hidden = false
+                    self.saveButton.hidden = false})
+            UIView.transitionWithView(infoView, duration: 0.4, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {
+                self.infoView.hidden = false
+                }, completion: { Void in
+                    self.titleLabel.hidden = false})
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -107,36 +138,31 @@ class DetailsViewController: UIViewController {
     }
     
     private func loadImage() {
-        if wallpaper.highResolutionImageURL != nil {
-            let smallImageUrl = wallpaper.highResolutionImageURL
-            let largeImageUrl = wallpaper.sourceImageURL
-            
-            let smallImageRequest = NSURLRequest(URL: smallImageUrl!)
-            let largeImageRequest = NSURLRequest(URL: largeImageUrl!)
-            
-            self.sourceImageView.setImageWithURLRequest(
-                smallImageRequest,
-                placeholderImage: nil,
-                success: {(smallImageRequest:NSURLRequest!,smallImageResponse:NSHTTPURLResponse?, smallImage:UIImage!) -> Void in
-                    self.sourceImageView.image = smallImage
-                    
-                    UIView.animateWithDuration(
-                        0.5, animations: {}, completion: { (success) -> Void in
-                            
-                            self.sourceImageView.setImageWithURLRequest(
-                                largeImageRequest,
-                                placeholderImage: smallImage,
-                                success: { (largeImageRequest, largeImageResponse, largeImage) -> Void in
-                                    
-                                    self.sourceImageView.image = largeImage
-                                },
-                                failure: nil)
-                    })
-                }, failure: nil)
-        }
-        else {
-            sourceImageView.image = UIImage(named: "ImageNotAvailable")
-        }
+        let smallImageUrl = wallpaper.highResolutionImageURL
+        let largeImageUrl = wallpaper.sourceImageURL
+        
+        let smallImageRequest = NSURLRequest(URL: smallImageUrl)
+        let largeImageRequest = NSURLRequest(URL: largeImageUrl)
+        
+        self.sourceImageView.setImageWithURLRequest(
+            smallImageRequest,
+            placeholderImage: nil,
+            success: {(smallImageRequest:NSURLRequest!,smallImageResponse:NSHTTPURLResponse?, smallImage:UIImage!) -> Void in
+                self.sourceImageView.image = smallImage
+                
+                UIView.animateWithDuration(
+                    0.5, animations: {}, completion: { (success) -> Void in
+                        
+                        self.sourceImageView.setImageWithURLRequest(
+                            largeImageRequest,
+                            placeholderImage: smallImage,
+                            success: { (largeImageRequest, largeImageResponse, largeImage) -> Void in
+                                
+                                self.sourceImageView.image = largeImage
+                            },
+                            failure: nil)
+                })
+            }, failure: nil)
     }
     
     

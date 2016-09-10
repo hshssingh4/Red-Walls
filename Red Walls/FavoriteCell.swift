@@ -20,12 +20,7 @@ class FavoriteCell: UICollectionViewCell {
         didSet {
             usernameLabel.text = wallpaper.username
             wallpaperImageView.clipsToBounds = true
-            if let sourceImageURL = wallpaper.highResolutionImageURL {
-                wallpaperImageView.setImageWithURL(sourceImageURL)
-            }
-            else {
-                wallpaperImageView.image = UIImage(named: "ImageNotAvailable")
-            }
+            wallpaperImageView.setImageWithURL(wallpaper.highResolutionImageURL)
             titleLabel.text = wallpaper.title
             
         }
