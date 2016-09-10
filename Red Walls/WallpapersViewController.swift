@@ -31,22 +31,17 @@ class WallpapersViewController: UIViewController, UICollectionViewDataSource, UI
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: ColorPalette.WhiteColor]
     }
     
-    /**override func viewWillAppear(animated: Bool) {
-        
-        
+    override func viewWillAppear(animated: Bool) {
+        if let data = NSUserDefaults.standardUserDefaults().objectForKey("favorites") as? NSData {
+            dataManager.favorites = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [Wallpaper]
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
-        var startIndex = 0
-        let endIndex = (dataManager.favorites.count)
-        while (startIndex < endIndex) {
-            print("yes")
-            let favorite = dataManager.favorites[startIndex]
-            NSUserDefaults.standardUserDefaults().setObject(favorite.dataDictionary, forKey: "dataDict \(index)" )
-            NSUserDefaults.standardUserDefaults().synchronize()
-            startIndex = startIndex + 1
-        }
-    }*/
+        let data = NSKeyedArchiver.archivedDataWithRootObject(dataManager.favorites)
+        NSUserDefaults.standardUserDefaults().setObject(data, forKey: "favorites")
+        //NSUserDefaults.standardUserDefaults().removeObjectForKey("favorites")
+    }
     
     func loadWallpapers() {
         let url = NSURL(string: "https://www.reddit.com/r/wallpapers.json")
@@ -116,11 +111,11 @@ class WallpapersViewController: UIViewController, UICollectionViewDataSource, UI
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = wallpapersCollectionView.dequeueReusableCellWithReuseIdentifier("WallpaperCell", forIndexPath: indexPath) as! WallpaperCell
 
-        // If block for refresh and pulling simultaneously
+        // If block for the case where the user refreshes and pulls simultaneously
         if (indexPath.row <= dataManager.wallpapers.count - 1) {
             cell.wallpaper = dataManager.wallpapers[indexPath.row]
             
-            if dataManager.favorites.contains(dataManager.wallpapers[indexPath.row]) {
+            if dataManager.isFavorite(dataManager.wallpapers[indexPath.row]) {
                 cell.favoriteButton.setImage(UIImage(named: "FavoriteIcon"), forState: UIControlState.Normal)
             }
             else {
@@ -136,10 +131,10 @@ class WallpapersViewController: UIViewController, UICollectionViewDataSource, UI
         let indexPath = self.wallpapersCollectionView.indexPathForCell(cell)
         let wallpaper = dataManager.wallpapers[(indexPath?.row)!]
         
-        if dataManager.favorites.contains(wallpaper) {
+        if dataManager.isFavorite(wallpaper) {
             let alertController = UIAlertController(title: "Are you sure you want to unfavorite?", message: nil, preferredStyle: .ActionSheet)
             alertController.addAction(UIAlertAction(title: "Unfavorite", style: .Destructive, handler: { (action) in
-                let index = self.dataManager.favorites.indexOf(wallpaper)!
+                let index = self.dataManager.indexOfFavorite(wallpaper)
                 self.dataManager.removeFavorite(index)
                 sender.setImage(UIImage(named: "UnavoriteIcon"), forState: UIControlState.Normal)
                 let transition = CATransition()

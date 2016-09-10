@@ -34,6 +34,24 @@ class DataManager: NSObject {
         favorites.removeAtIndex(index)
     }
     
+    func isFavorite(wp: Wallpaper) -> Bool {
+        for favorite in favorites {
+            if favorite.id == wp.id {
+                return true
+            }
+        }
+        return false
+    }
+    
+    func indexOfFavorite(wp: Wallpaper) -> Int {
+        for index in 0...(favorites.count-1) {
+            if favorites[index].id == wp.id {
+                return index
+            }
+        }
+        return -1
+    }
+    
     func contains(wp: Wallpaper) -> Bool {
         for wallpaper in wallpapers {
             if wallpaper.id == wp.id {

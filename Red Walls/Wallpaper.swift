@@ -9,12 +9,15 @@
 import UIKit
 
 // This class represents a single wallpaper object
-class Wallpaper: NSObject {
+class Wallpaper: NSObject, NSCoding {
     var username: String
     var sourceImageURL: NSURL?
     var highResolutionImageURL: NSURL?
     var title: String
     var id: String
+    var numLikes: Int
+    var numComments: Int
+    var score: Int
     
     
     init(dataDict: NSDictionary) {
@@ -39,5 +42,32 @@ class Wallpaper: NSObject {
         
         title = dataDict["title"] as! String
         id = dataDict["id"] as! String
+        numLikes = dataDict["ups"] as! Int
+        numComments = dataDict["num_comments"] as! Int
+        score = dataDict["score"] as! Int
+    }
+    
+    // Using NSCoding to store the dict and to load it back in
+    
+    required init(coder decoder: NSCoder) {
+        username = decoder.decodeObjectForKey("author") as! String
+        sourceImageURL = decoder.decodeObjectForKey("sourceURL") as? NSURL
+        highResolutionImageURL = decoder.decodeObjectForKey("resolutionURL") as? NSURL
+        title = decoder.decodeObjectForKey("title") as! String
+        id = decoder.decodeObjectForKey("id") as! String
+        numLikes = decoder.decodeIntegerForKey("ups")
+        numComments = decoder.decodeIntegerForKey("num_comments")
+        score = decoder.decodeIntegerForKey("score")
+    }
+    
+    func encodeWithCoder(coder: NSCoder) {
+        coder.encodeObject(self.username, forKey: "author")
+        coder.encodeObject(self.sourceImageURL, forKey: "sourceURL")
+        coder.encodeObject(self.highResolutionImageURL, forKey: "resolutionURL")
+        coder.encodeObject(self.title, forKey: "title")
+        coder.encodeObject(self.id, forKey: "id")
+        coder.encodeInteger(self.numLikes, forKey: "ups")
+        coder.encodeInteger(self.numComments, forKey: "num_comments")
+        coder.encodeInteger(self.score, forKey: "score")
     }
 }

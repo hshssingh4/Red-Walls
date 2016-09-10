@@ -18,6 +18,10 @@ class DetailsViewController: UIViewController {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var infoView: UIView!
     @IBOutlet var contentView: UIView!
+    @IBOutlet var numLikesLabel: UILabel!
+    @IBOutlet var numCommentsLabel: UILabel!
+    @IBOutlet var numScoreLabel: UILabel!
+    
     
     var wallpaper: Wallpaper!
     
@@ -25,10 +29,36 @@ class DetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        titleLabel.text = wallpaper.title
+        initInfoView()
         initStatusBarBackgroundView()
         loadImage()
         sourceImageView.clipsToBounds = true
+        addParallaxEffect()
+    }
+    
+    func initInfoView() {
+        titleLabel.text = wallpaper.title
+        numLikesLabel.text = "\(wallpaper.numLikes)"
+        numCommentsLabel.text = "\(wallpaper.numComments)"
+        numScoreLabel.text = "\(wallpaper.score)"
+        
+    }
+    
+    func addParallaxEffect() {
+        let rotation = 50
+        
+        let horizontalRotation = UIInterpolatingMotionEffect(keyPath: "center.x", type: .TiltAlongHorizontalAxis)
+        let verticalRotation = UIInterpolatingMotionEffect(keyPath: "center.y", type: .TiltAlongVerticalAxis)
+        
+        horizontalRotation.minimumRelativeValue = -rotation
+        horizontalRotation.maximumRelativeValue = rotation
+        
+        verticalRotation.minimumRelativeValue = -rotation
+        verticalRotation.maximumRelativeValue = rotation
+        
+        let group = UIMotionEffectGroup()
+        group.motionEffects = [horizontalRotation, verticalRotation]
+        sourceImageView.addMotionEffect(group)
     }
     
     override func viewDidLayoutSubviews() {
