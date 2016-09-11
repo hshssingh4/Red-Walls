@@ -346,12 +346,15 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="closeButton" destination="v14-MU-8U1" id="gkS-vQ-EWH"/>
+                        <outlet property="commentsLabel" destination="xgA-Wu-MBZ" id="3sz-aQ-tYE"/>
                         <outlet property="contentView" destination="jyR-2U-flV" id="DU2-BQ-iQe"/>
                         <outlet property="infoView" destination="3qA-C6-ffr" id="E9V-Hd-aAS"/>
+                        <outlet property="likesLabel" destination="SDz-bd-ZAg" id="EnD-bM-A7d"/>
                         <outlet property="numCommentsLabel" destination="oUV-IY-2cJ" id="pji-uj-20i"/>
                         <outlet property="numLikesLabel" destination="JjE-Nn-UXd" id="MXd-nd-NHg"/>
                         <outlet property="numScoreLabel" destination="1te-L1-qvD" id="bOX-Uo-IGv"/>
                         <outlet property="saveButton" destination="0Vc-M6-Okr" id="T0W-xJ-7LN"/>
+                        <outlet property="scoreLabel" destination="yjT-2G-oda" id="5l7-RI-bPZ"/>
                         <outlet property="scrollView" destination="b0n-fG-a2A" id="N0v-rx-8np"/>
                         <outlet property="sourceImageView" destination="Wti-YT-QP8" id="3oX-4p-I17"/>
                         <outlet property="titleLabel" destination="dTi-wz-PZ0" id="S7I-eM-P5K"/>
@@ -543,6 +546,6 @@
         <image name="UnfavoriteIcon" width="48" height="48"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="qHl-9H-kuq"/>
+        <segue reference="sUE-9z-PAQ"/>
     </inferredMetricsTieBreakers>
 </document>

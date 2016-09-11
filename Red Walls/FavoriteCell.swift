@@ -8,6 +8,7 @@
 
 import UIKit
 
+// This class represents the prototype UICollectionViewCell in the storyboard.
 class FavoriteCell: UICollectionViewCell {
     
     @IBOutlet var wallpaperImageView: UIImageView!
@@ -15,7 +16,7 @@ class FavoriteCell: UICollectionViewCell {
     @IBOutlet var usernameLabel: UILabel!
     @IBOutlet var labelsView: UIView!
     
-    
+    // Init the wallpaper array
     var wallpaper: Wallpaper! {
         didSet {
             usernameLabel.text = wallpaper.username

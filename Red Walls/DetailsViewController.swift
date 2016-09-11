@@ -9,6 +9,7 @@
 import UIKit
 import SVProgressHUD
 
+// Class that displays the wallpaper image in full screen mode and allows users to download it.
 class DetailsViewController: UIViewController {
 
     
@@ -23,21 +24,27 @@ class DetailsViewController: UIViewController {
     @IBOutlet var numScoreLabel: UILabel!
     @IBOutlet var closeButton: UIButton!
     @IBOutlet var saveButton: UIButton!
+    @IBOutlet var likesLabel: UILabel!
+    @IBOutlet var commentsLabel: UILabel!
+    @IBOutlet var scoreLabel: UILabel!
     
     
-    var wallpaper: Wallpaper!
+    var wallpaper: Wallpaper! // The particular wallpaper object for this class.
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        initInfoView()
-        initStatusBarBackgroundView()
-        loadImage()
+        initInfoView() // View on the bottom.
+        initStatusBarBackgroundView() // View behind the status bar that also includes close and download buttons.
+        loadImage() // Load the image from the server.
         sourceImageView.clipsToBounds = true
-        addParallaxEffect()
+        addParallaxEffect() // Add a parallax effect to make it more engaging.
     }
     
+    /**
+     This is the view on the bottom that contains labels and everything else theoretically. In reality, those labels are not directly inside it.
+    */
     func initInfoView() {
         titleLabel.text = wallpaper.title
         numLikesLabel.text = "\(wallpaper.numLikes)"
@@ -45,23 +52,27 @@ class DetailsViewController: UIViewController {
         numScoreLabel.text = "\(wallpaper.score)"
     }
     
+    /**
+     This method creates a nice parallax effect to create a user immersive display.s
+    */
     func addParallaxEffect() {
-        let rotation = 50
+        let rotationValue = 50
         
         let horizontalRotation = UIInterpolatingMotionEffect(keyPath: "center.x", type: .TiltAlongHorizontalAxis)
         let verticalRotation = UIInterpolatingMotionEffect(keyPath: "center.y", type: .TiltAlongVerticalAxis)
+        horizontalRotation.minimumRelativeValue = -rotationValue
+        horizontalRotation.maximumRelativeValue = rotationValue
+        verticalRotation.minimumRelativeValue = -rotationValue
+        verticalRotation.maximumRelativeValue = rotationValue
         
-        horizontalRotation.minimumRelativeValue = -rotation
-        horizontalRotation.maximumRelativeValue = rotation
-        
-        verticalRotation.minimumRelativeValue = -rotation
-        verticalRotation.maximumRelativeValue = rotation
-        
-        let group = UIMotionEffectGroup()
-        group.motionEffects = [horizontalRotation, verticalRotation]
-        sourceImageView.addMotionEffect(group)
+        let motionEffectsArray = UIMotionEffectGroup()
+        motionEffectsArray.motionEffects = [horizontalRotation, verticalRotation]
+        sourceImageView.addMotionEffect(motionEffectsArray)
     }
     
+    /**
+     This is the tap gesture to hide and show the views on the screen. It lets user to get a sense of how the image would appear on screen without any other views.
+    */
     @IBAction func onContentViewTapGesture(sender: UITapGestureRecognizer) {
         if topView.hidden == false {
             UIApplication.sharedApplication().statusBarHidden = true
@@ -74,6 +85,12 @@ class DetailsViewController: UIViewController {
             UIView.transitionWithView(infoView, duration: 0.4, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {
                 self.infoView.hidden = true
                 self.titleLabel.hidden = true
+                self.numLikesLabel.hidden = true
+                self.likesLabel.hidden = true
+                self.numCommentsLabel.hidden = true
+                self.commentsLabel.hidden = true
+                self.numScoreLabel.hidden = true
+                self.scoreLabel.hidden = true
             }, completion: nil)
         }
         else {
@@ -81,16 +98,29 @@ class DetailsViewController: UIViewController {
             scrollView.scrollEnabled = true
             UIView.transitionWithView(topView, duration: 0.4, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {() -> Void in
                 self.topView.hidden = false
-                }, completion: {Void in
-                    self.closeButton.hidden = false
-                    self.saveButton.hidden = false})
+                }, completion: nil)
+            UIView.animateWithDuration(0.4, animations: { 
+                self.closeButton.hidden = false
+                self.saveButton.hidden = false
+            })
             UIView.transitionWithView(infoView, duration: 0.4, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {
                 self.infoView.hidden = false
-                }, completion: { Void in
-                    self.titleLabel.hidden = false})
+                }, completion: nil)
+            UIView.animateWithDuration(0.4, animations: { 
+                self.titleLabel.hidden = false
+                self.numLikesLabel.hidden = false
+                self.likesLabel.hidden = false
+                self.numCommentsLabel.hidden = false
+                self.commentsLabel.hidden = false
+                self.numScoreLabel.hidden = false
+                self.scoreLabel.hidden = false
+            })
         }
     }
     
+    /**
+     Sets the content size for the scroll view.
+    */
     override func viewDidLayoutSubviews() {
         scrollView.contentSize = CGSize(width: scrollView.frame.size.width, height: infoView.frame.origin.y + infoView.frame.size.height)
     }
@@ -100,10 +130,16 @@ class DetailsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    /**
+     Dismisses the view controller.
+    */
     @IBAction func onCloseButtonPressed(sender: UIButton) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
+    /**
+     Saves this wallpaper to the photos album.
+    */
     @IBAction func onSaveButtonPressed(sender: UIButton) {
         SVProgressHUD.show()
         UIImageWriteToSavedPhotosAlbum(sourceImageView.image!, self, #selector(DetailsViewController.saveImage), nil)
@@ -137,6 +173,9 @@ class DetailsViewController: UIViewController {
         topView.layer.insertSublayer(gradientLayer, atIndex: 0)
     }
     
+    /**
+     Private method to load the image and place it in the source image view.
+    */
     private func loadImage() {
         let smallImageUrl = wallpaper.highResolutionImageURL
         let largeImageUrl = wallpaper.sourceImageURL
@@ -164,14 +203,6 @@ class DetailsViewController: UIViewController {
                 })
             }, failure: nil)
     }
-    
-    
-    
-    
-    
-    
-    
-    
     
     /*
     // MARK: - Navigation

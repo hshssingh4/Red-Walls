@@ -10,6 +10,7 @@ import UIKit
 import AFNetworking
 import SVProgressHUD
 
+// This class represents the prototype UICollectionViewCell in the storyboard.
 class WallpaperCell: UICollectionViewCell {
     
     @IBOutlet var wallpaperImageView: UIImageView!
@@ -18,18 +19,13 @@ class WallpaperCell: UICollectionViewCell {
     @IBOutlet var favoriteButton: UIButton!
     @IBOutlet var labelsView: UIView!
     
+    // Init the wallpaper cell elements with values from the wallpaper object.
     var wallpaper: Wallpaper! {
         didSet {
             usernameLabel.text = wallpaper.username
             wallpaperImageView.clipsToBounds = true
-            /*if let sourceImageURL = wallpaper.sourceImageURL {
-                wallpaperImageView.setImageWithURL(sourceImageURL)
-            }
-            else {
-                wallpaperImageView.image = UIImage(named: "ImageNotAvailable")
-            }*/
-    
             
+            // Requesting for the image from the Web.
             let request = NSURLRequest(URL: wallpaper.highResolutionImageURL)
             wallpaperImageView.setImageWithURLRequest(request, placeholderImage: nil, success: {(request:NSURLRequest!,response:NSHTTPURLResponse?, image:UIImage!) -> Void in
                 if response != nil {
@@ -39,8 +35,6 @@ class WallpaperCell: UICollectionViewCell {
                     self.wallpaperImageView.image = image
                 }
             }, failure: nil)
-            
-            
             
             titleLabel.text = wallpaper.title
         }

@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+// Custom class to manage and abstract out the color scheme of our app.
 struct ColorPalette {
     static let BrandColor = UIColor(red: 0.0/255.0, green: 134.0/255.0, blue: 255.0/255.0, alpha: 1.0)
     static let LightGrayColor = UIColor.lightGrayColor()

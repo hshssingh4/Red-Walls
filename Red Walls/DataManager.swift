@@ -43,6 +43,9 @@ class DataManager: NSObject {
         return false
     }
     
+    /**
+     This method returns the index of the wallpaper passed as the argument in favorites array.
+    */
     func indexOfFavorite(wp: Wallpaper) -> Int {
         for index in 0...(favorites.count-1) {
             if favorites[index].id == wp.id {
@@ -52,6 +55,10 @@ class DataManager: NSObject {
         return -1
     }
     
+    /**
+     This method checks whether or not the arg wallpaper is present in the wallpapers array.
+      Returns true, if it does, false otherwise.
+    */
     func contains(wp: Wallpaper) -> Bool {
         for wallpaper in wallpapers {
             if wallpaper.id == wp.id {

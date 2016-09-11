@@ -19,11 +19,14 @@ class Wallpaper: NSObject, NSCoding {
     var numComments: Int
     var score: Int
     
-    
+    /**
+     Constructor for the wallpaper object. Initializes values based on the 
+     value in the NSDictionary obtained from the Reddit JSON file.
+    */
     init(dataDict: NSDictionary) {
         username = dataDict["author"] as! String
         
-        // Set to placeholder images
+        // Set to placeholder images first. Then make the call to fetch the actual image.
         highResolutionImageURL = NSURL(string: "http://i.imgur.com/XLzAkpK.jpg")!
         sourceImageURL = NSURL(string: "http://i.imgur.com/XLzAkpK.jpg")!
         
@@ -31,6 +34,8 @@ class Wallpaper: NSObject, NSCoding {
         if imagesDict != nil {
             imagesDict = (imagesDict as! NSArray)[0] as! NSDictionary
         }
+        
+        // Fetching the actual image.
         if imagesDict != nil {
             let resolutionsArray = (imagesDict!!["resolutions"] as! NSArray)
             if resolutionsArray.count > 0 {
@@ -54,6 +59,7 @@ class Wallpaper: NSObject, NSCoding {
     
     // Using NSCoding to store the dict and to load it back in
     
+    // Decodes the values
     required init(coder decoder: NSCoder) {
         username = decoder.decodeObjectForKey("author") as! String
         sourceImageURL = decoder.decodeObjectForKey("sourceURL") as! NSURL
@@ -65,6 +71,7 @@ class Wallpaper: NSObject, NSCoding {
         score = decoder.decodeIntegerForKey("score")
     }
     
+    // Encodes the values
     func encodeWithCoder(coder: NSCoder) {
         coder.encodeObject(self.username, forKey: "author")
         coder.encodeObject(self.sourceImageURL, forKey: "sourceURL")
