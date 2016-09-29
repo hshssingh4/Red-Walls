@@ -24,7 +24,7 @@ The following **optional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/xtgQ7EI.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://github.com/hshssingh4/Red-Walls/blob/master/RedWalls.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
