@@ -18,6 +18,7 @@ The following **optional** features are implemented:
 - [x] Users can refresh the list of wallpapers whenever they desire.
 - [x] Details Views hide on a tap to give users an immersive feel of how wallpapers would actually look like when they download.
 - [x] In Details View, Users can observe a nice parallax effect when they tilt their phones. 
+- [x] AutoLayout features added so app works smoothly across all iOS devices.
 
 ## Video Walkthrough 
 
