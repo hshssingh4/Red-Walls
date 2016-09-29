@@ -10,7 +10,7 @@ import UIKit
 import SVProgressHUD
 
 // This class manages the view controller and is the root where everything is initialized
-class WallpapersViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class WallpapersViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, CAAnimationDelegate {
 
     @IBOutlet var wallpapersCollectionView: UICollectionView!
     
@@ -33,18 +33,18 @@ class WallpapersViewController: UIViewController, UICollectionViewDataSource, UI
     
     /** Make sure to initialize the favorites that are stored in NSUserDefaults back to the favorites array.
     */
-    override func viewWillAppear(animated: Bool) {
-        if let data = NSUserDefaults.standardUserDefaults().objectForKey("favorites") as? NSData {
-            dataManager.favorites = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! [Wallpaper]
+    override func viewWillAppear(_ animated: Bool) {
+        if let data = UserDefaults.standard.object(forKey: "favorites") as? Data {
+            dataManager.favorites = NSKeyedUnarchiver.unarchiveObject(with: data) as! [Wallpaper]
         }
     }
     
     /**
      Before the view disppears, make sure the favorites are stored in NSUserDefaults so that they can be retrieved later.
     */
-    override func viewWillDisappear(animated: Bool) {
-        let data = NSKeyedArchiver.archivedDataWithRootObject(dataManager.favorites)
-        NSUserDefaults.standardUserDefaults().setObject(data, forKey: "favorites")
+    override func viewWillDisappear(_ animated: Bool) {
+        let data = NSKeyedArchiver.archivedData(withRootObject: dataManager.favorites)
+        UserDefaults.standard.set(data, forKey: "favorites")
         //NSUserDefaults.standardUserDefaults().removeObjectForKey("favorites")
     }
     
@@ -52,24 +52,24 @@ class WallpapersViewController: UIViewController, UICollectionViewDataSource, UI
      This method loads the wallpaper by first requesting for the data and then by populating the data manager.
     */
     func loadWallpapers() {
-        let url = NSURL(string: "https://www.reddit.com/r/wallpapers.json")
-        let request = NSURLRequest(
-            URL: url!,
-            cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData,
+        let url = URL(string: "https://www.reddit.com/r/wallpapers.json")
+        let request = URLRequest(
+            url: url!,
+            cachePolicy: NSURLRequest.CachePolicy.reloadIgnoringLocalCacheData,
             timeoutInterval: 10)
         
-        let session = NSURLSession(
-            configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
+        let session = URLSession(
+            configuration: URLSessionConfiguration.default,
             delegate: nil,
-            delegateQueue: NSOperationQueue.mainQueue()
+            delegateQueue: OperationQueue.main
         )
         
         // Deserialize the Json data
-        let task: NSURLSessionDataTask = session.dataTaskWithRequest(request, completionHandler: { (dataOrNil, response, error) in
+        let task: URLSessionDataTask = session.dataTask(with: request, completionHandler: { (dataOrNil, response, error) in
             if let data = dataOrNil {
-                if let responseDictionary = try! NSJSONSerialization.JSONObjectWithData(
-                data, options:[]) as? NSDictionary {
-                    let wallpapersDict = responseDictionary["data"]!["children"]! as! [NSDictionary]
+                if let responseDictionary = try! JSONSerialization.jsonObject(
+                with: data, options:[]) as? NSDictionary {
+                    let wallpapersDict = (responseDictionary["data"] as! NSDictionary) ["children"] as! [NSDictionary]
                     for wallpaperDict in wallpapersDict {
                         let data = wallpaperDict["data"] as! NSDictionary
                         let wallpaper = Wallpaper(dataDict: data)
@@ -83,11 +83,11 @@ class WallpapersViewController: UIViewController, UICollectionViewDataSource, UI
             }
             else {
                 // Provide an error message if the user is offile and still tries to reload data.
-                let alertController = UIAlertController(title: "No Internet Connection", message: nil, preferredStyle: .Alert)
-                alertController.addAction(UIAlertAction(title: "Retry", style: .Default, handler: { (action) in
+                let alertController = UIAlertController(title: "No Internet Connection", message: nil, preferredStyle: .alert)
+                alertController.addAction(UIAlertAction(title: "Retry", style: .default, handler: { (action) in
                     self.loadWallpapers()
                 }))
-                self.presentViewController(alertController, animated: true, completion: nil)
+                self.present(alertController, animated: true, completion: nil)
             }
         })
         task.resume()
@@ -100,8 +100,8 @@ class WallpapersViewController: UIViewController, UICollectionViewDataSource, UI
     {
         refreshControl = UIRefreshControl()
         refreshControl.tintColor = ColorPalette.BlackColor
-        refreshControl.addTarget(self, action: #selector(WallpapersViewController.onRefresh), forControlEvents: UIControlEvents.ValueChanged)
-        wallpapersCollectionView.insertSubview(refreshControl, atIndex: 0)
+        refreshControl.addTarget(self, action: #selector(WallpapersViewController.onRefresh), for: UIControlEvents.valueChanged)
+        wallpapersCollectionView.insertSubview(refreshControl, at: 0)
     }
     
     /**
@@ -123,25 +123,25 @@ class WallpapersViewController: UIViewController, UICollectionViewDataSource, UI
     /**
      Return the number of wallpaper in the wallpapers array.
     */
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return dataManager.wallpapers.count
     }
     
     /**
      Sets data according to the wallpapers in the array and populates the collection view.
     */
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = wallpapersCollectionView.dequeueReusableCellWithReuseIdentifier("WallpaperCell", forIndexPath: indexPath) as! WallpaperCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = wallpapersCollectionView.dequeueReusableCell(withReuseIdentifier: "WallpaperCell", for: indexPath) as! WallpaperCell
 
         // If block for the case where the user refreshes and pulls simultaneously
-        if (indexPath.row <= dataManager.wallpapers.count - 1) {
-            cell.wallpaper = dataManager.wallpapers[indexPath.row]
+        if ((indexPath as NSIndexPath).row <= dataManager.wallpapers.count - 1) {
+            cell.wallpaper = dataManager.wallpapers[(indexPath as NSIndexPath).row]
             
-            if dataManager.isFavorite(dataManager.wallpapers[indexPath.row]) {
-                cell.favoriteButton.setImage(UIImage(named: "FavoriteIcon"), forState: UIControlState.Normal)
+            if dataManager.isFavorite(dataManager.wallpapers[(indexPath as NSIndexPath).row]) {
+                cell.favoriteButton.setImage(UIImage(named: "FavoriteIcon"), for: UIControlState())
             }
             else {
-                cell.favoriteButton.setImage(UIImage(named: "UnfavoriteIcon"), forState: UIControlState.Normal)
+                cell.favoriteButton.setImage(UIImage(named: "UnfavoriteIcon"), for: UIControlState())
             }
         }
         
@@ -151,19 +151,19 @@ class WallpapersViewController: UIViewController, UICollectionViewDataSource, UI
     /**
      Changes the size of the collection view according to different screen sizes.
     */
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
         let height = CGFloat(259)
-        let width = UIScreen.mainScreen().bounds.width - 10
-        return CGSizeMake(width, height)
+        let width = UIScreen.main.bounds.width - 10
+        return CGSize(width: width, height: height)
     }
     
     /**
      This just highlights and unhighlights the cell when user selects and releases a cell to notify them of the touch using an animation.
     */
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let cell = collectionView.cellForItemAtIndexPath(indexPath)
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath)
         cell?.backgroundColor = ColorPalette.LightGrayColor
-        UIView.animateWithDuration(0.3, animations: {
+        UIView.animate(withDuration: 0.3, animations: {
             cell?.backgroundColor = ColorPalette.CellColor
         })
     }
@@ -171,16 +171,16 @@ class WallpapersViewController: UIViewController, UICollectionViewDataSource, UI
     /**
      This just highlights the cell when user selects it to notify them of the touch.
     */
-    func collectionView(collectionView: UICollectionView, didHighlightItemAtIndexPath indexPath: NSIndexPath) {
-        let cell = collectionView.cellForItemAtIndexPath(indexPath)
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath)
         cell?.backgroundColor = ColorPalette.LightGrayColor
     }
     
     /**
      This method is used for unhilighting the collection view cell's background color.
     */
-    func collectionView(collectionView: UICollectionView, didUnhighlightItemAtIndexPath indexPath: NSIndexPath) {
-        let cell = collectionView.cellForItemAtIndexPath(indexPath)
+    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath)
         cell?.backgroundColor = ColorPalette.CellColor
     }
     
@@ -189,36 +189,36 @@ class WallpapersViewController: UIViewController, UICollectionViewDataSource, UI
      1. If user decides to favorite a wallpaper. that wallpaper is immediately added to the favorites array.
      2. However, if a user decides to unfavorite an already favorites wallpaper, they are asked to verify their decision.
     */
-    @IBAction func onFavoriteButtonPressed(sender: UIButton) {
+    @IBAction func onFavoriteButtonPressed(_ sender: UIButton) {
         let cell = sender.superview?.superview as! WallpaperCell
-        let indexPath = self.wallpapersCollectionView.indexPathForCell(cell)
-        let wallpaper = dataManager.wallpapers[(indexPath?.row)!]
+        let indexPath = self.wallpapersCollectionView.indexPath(for: cell)
+        let wallpaper = dataManager.wallpapers[((indexPath as NSIndexPath?)?.row)!]
         
         if dataManager.isFavorite(wallpaper) {
-            let alertController = UIAlertController(title: "Are you sure you want to unfavorite?", message: nil, preferredStyle: .ActionSheet)
-            alertController.addAction(UIAlertAction(title: "Unfavorite", style: .Destructive, handler: { (action) in
+            let alertController = UIAlertController(title: "Are you sure you want to unfavorite?", message: nil, preferredStyle: .actionSheet)
+            alertController.addAction(UIAlertAction(title: "Unfavorite", style: .destructive, handler: { (action) in
                 let index = self.dataManager.indexOfFavorite(wallpaper)
                 self.dataManager.removeFavorite(index)
-                sender.setImage(UIImage(named: "UnavoriteIcon"), forState: UIControlState.Normal)
+                sender.setImage(UIImage(named: "UnavoriteIcon"), for: UIControlState())
                 let transition = CATransition()
                 transition.delegate = self
                 transition.duration = 0.2
                 transition.type = kCATransitionFade
-                sender.imageView?.layer.addAnimation(transition, forKey: kCATransition)
+                sender.imageView?.layer.add(transition, forKey: kCATransition)
             }))
-            alertController.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+            alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             
-            self.presentViewController(alertController, animated: true, completion: nil)
+            self.present(alertController, animated: true, completion: nil)
         }
         else {
             dataManager.addFavorite(wallpaper)
             
-            sender.setImage(UIImage(named: "FavoriteIcon"), forState: UIControlState.Normal)
+            sender.setImage(UIImage(named: "FavoriteIcon"), for: UIControlState())
             let transition = CATransition()
             transition.delegate = self
             transition.duration = 0.2
             transition.type = kCATransitionFade
-            sender.imageView?.layer.addAnimation(transition, forKey: kCATransition)
+            sender.imageView?.layer.add(transition, forKey: kCATransition)
         }
     }
     
@@ -226,20 +226,20 @@ class WallpapersViewController: UIViewController, UICollectionViewDataSource, UI
      This method is used to reload the collection view data after user decudes to favorite or unfavorite a wallpaper.
      It is required to make sure the state of button used to favorite/unfavorite is visible on screen.
     */
-    override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
+    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
         self.wallpapersCollectionView.reloadData()
     }
     
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if let cell = sender as? UICollectionViewCell {
-            let indexPath = wallpapersCollectionView.indexPathForCell(cell)
-            let wallpaper = dataManager.wallpapers[(indexPath?.row)!]
-            let detailsViewController = segue.destinationViewController as! DetailsViewController
+            let indexPath = wallpapersCollectionView.indexPath(for: cell)
+            let wallpaper = dataManager.wallpapers[((indexPath as NSIndexPath?)?.row)!]
+            let detailsViewController = segue.destination as! DetailsViewController
             
             detailsViewController.wallpaper = wallpaper
         }

@@ -58,8 +58,8 @@ class DetailsViewController: UIViewController {
     func addParallaxEffect() {
         let rotationValue = 50
         
-        let horizontalRotation = UIInterpolatingMotionEffect(keyPath: "center.x", type: .TiltAlongHorizontalAxis)
-        let verticalRotation = UIInterpolatingMotionEffect(keyPath: "center.y", type: .TiltAlongVerticalAxis)
+        let horizontalRotation = UIInterpolatingMotionEffect(keyPath: "center.x", type: .tiltAlongHorizontalAxis)
+        let verticalRotation = UIInterpolatingMotionEffect(keyPath: "center.y", type: .tiltAlongVerticalAxis)
         horizontalRotation.minimumRelativeValue = -rotationValue
         horizontalRotation.maximumRelativeValue = rotationValue
         verticalRotation.minimumRelativeValue = -rotationValue
@@ -73,47 +73,47 @@ class DetailsViewController: UIViewController {
     /**
      This is the tap gesture to hide and show the views on the screen. It lets user to get a sense of how the image would appear on screen without any other views.
     */
-    @IBAction func onContentViewTapGesture(sender: UITapGestureRecognizer) {
-        if topView.hidden == false {
-            UIApplication.sharedApplication().statusBarHidden = true
-            scrollView.scrollEnabled = false
-            UIView.transitionWithView(topView, duration: 0.4, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {() -> Void in
-                self.topView.hidden = true
-                self.closeButton.hidden = true
-                self.saveButton.hidden = true
+    @IBAction func onContentViewTapGesture(_ sender: UITapGestureRecognizer) {
+        if topView.isHidden == false {
+            UIApplication.shared.isStatusBarHidden = true
+            scrollView.isScrollEnabled = false
+            UIView.transition(with: topView, duration: 0.4, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {() -> Void in
+                self.topView.isHidden = true
+                self.closeButton.isHidden = true
+                self.saveButton.isHidden = true
             }, completion: nil)
-            UIView.transitionWithView(infoView, duration: 0.4, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {
-                self.infoView.hidden = true
-                self.titleLabel.hidden = true
-                self.numLikesLabel.hidden = true
-                self.likesLabel.hidden = true
-                self.numCommentsLabel.hidden = true
-                self.commentsLabel.hidden = true
-                self.numScoreLabel.hidden = true
-                self.scoreLabel.hidden = true
+            UIView.transition(with: infoView, duration: 0.4, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {
+                self.infoView.isHidden = true
+                self.titleLabel.isHidden = true
+                self.numLikesLabel.isHidden = true
+                self.likesLabel.isHidden = true
+                self.numCommentsLabel.isHidden = true
+                self.commentsLabel.isHidden = true
+                self.numScoreLabel.isHidden = true
+                self.scoreLabel.isHidden = true
             }, completion: nil)
         }
         else {
-            UIApplication.sharedApplication().statusBarHidden = false
-            scrollView.scrollEnabled = true
-            UIView.transitionWithView(topView, duration: 0.4, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {() -> Void in
-                self.topView.hidden = false
+            UIApplication.shared.isStatusBarHidden = false
+            scrollView.isScrollEnabled = true
+            UIView.transition(with: topView, duration: 0.4, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {() -> Void in
+                self.topView.isHidden = false
                 }, completion: nil)
-            UIView.animateWithDuration(0.4, animations: { 
-                self.closeButton.hidden = false
-                self.saveButton.hidden = false
+            UIView.animate(withDuration: 0.4, animations: { 
+                self.closeButton.isHidden = false
+                self.saveButton.isHidden = false
             })
-            UIView.transitionWithView(infoView, duration: 0.4, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: {
-                self.infoView.hidden = false
+            UIView.transition(with: infoView, duration: 0.4, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {
+                self.infoView.isHidden = false
                 }, completion: nil)
-            UIView.animateWithDuration(0.4, animations: { 
-                self.titleLabel.hidden = false
-                self.numLikesLabel.hidden = false
-                self.likesLabel.hidden = false
-                self.numCommentsLabel.hidden = false
-                self.commentsLabel.hidden = false
-                self.numScoreLabel.hidden = false
-                self.scoreLabel.hidden = false
+            UIView.animate(withDuration: 0.4, animations: { 
+                self.titleLabel.isHidden = false
+                self.numLikesLabel.isHidden = false
+                self.likesLabel.isHidden = false
+                self.numCommentsLabel.isHidden = false
+                self.commentsLabel.isHidden = false
+                self.numScoreLabel.isHidden = false
+                self.scoreLabel.isHidden = false
             })
         }
     }
@@ -133,29 +133,30 @@ class DetailsViewController: UIViewController {
     /**
      Dismisses the view controller.
     */
-    @IBAction func onCloseButtonPressed(sender: UIButton) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func onCloseButtonPressed(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
     }
     
     /**
      Saves this wallpaper to the photos album.
     */
-    @IBAction func onSaveButtonPressed(sender: UIButton) {
+    @IBAction func onSaveButtonPressed(_ sender: UIButton) {
         SVProgressHUD.show()
+        
         UIImageWriteToSavedPhotosAlbum(sourceImageView.image!, self, #selector(DetailsViewController.saveImage), nil)
     }
     
-    func saveImage(image: UIImage, didFinishSavingWithError error: NSError?, contextInfo:UnsafePointer<Void>) {
+    func saveImage(_ image: UIImage, didFinishSavingWithError error: NSError?, contextInfo:UnsafeRawPointer) {
         if error == nil {
             SVProgressHUD.dismiss()
-            let alertController = UIAlertController(title: "Saved", message: "Saved Succesfully", preferredStyle: .Alert)
-            alertController.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-            self.presentViewController(alertController, animated: true, completion: nil)
+            let alertController = UIAlertController(title: "Saved", message: "Saved Succesfully", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alertController, animated: true, completion: nil)
         } else {
             SVProgressHUD.dismiss()
-            let ac = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .Alert)
-            ac.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-            presentViewController(ac, animated: true, completion: nil)
+            let ac = UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(ac, animated: true, completion: nil)
         }
     }
     
@@ -164,35 +165,35 @@ class DetailsViewController: UIViewController {
     /**
      This method adds a view behind status bar.
      */
-    private func initStatusBarBackgroundView() {
+    fileprivate func initStatusBarBackgroundView() {
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = topView.bounds
         gradientLayer.colors = ColorPalette.GradientColors.BlackClear
         gradientLayer.startPoint = CGPoint(x: 0, y: 0)
         gradientLayer.endPoint = CGPoint(x: 0, y: 1)
-        topView.layer.insertSublayer(gradientLayer, atIndex: 0)
+        topView.layer.insertSublayer(gradientLayer, at: 0)
     }
     
     /**
      Private method to load the image and place it in the source image view.
     */
-    private func loadImage() {
+    fileprivate func loadImage() {
         let smallImageUrl = wallpaper.highResolutionImageURL
         let largeImageUrl = wallpaper.sourceImageURL
         
-        let smallImageRequest = NSURLRequest(URL: smallImageUrl)
-        let largeImageRequest = NSURLRequest(URL: largeImageUrl)
+        let smallImageRequest = URLRequest(url: smallImageUrl as URL)
+        let largeImageRequest = URLRequest(url: largeImageUrl as URL)
         
-        self.sourceImageView.setImageWithURLRequest(
+        self.sourceImageView.setImageWith(
             smallImageRequest,
             placeholderImage: nil,
-            success: {(smallImageRequest:NSURLRequest!,smallImageResponse:NSHTTPURLResponse?, smallImage:UIImage!) -> Void in
+            success: {(smallImageRequest:URLRequest!,smallImageResponse:HTTPURLResponse?, smallImage:UIImage!) -> Void in
                 self.sourceImageView.image = smallImage
                 
-                UIView.animateWithDuration(
-                    0.5, animations: {}, completion: { (success) -> Void in
+                UIView.animate(
+                    withDuration: 0.5, animations: {}, completion: { (success) -> Void in
                         
-                        self.sourceImageView.setImageWithURLRequest(
+                        self.sourceImageView.setImageWith(
                             largeImageRequest,
                             placeholderImage: smallImage,
                             success: { (largeImageRequest, largeImageResponse, largeImage) -> Void in

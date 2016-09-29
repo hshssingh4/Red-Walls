@@ -26,8 +26,8 @@ class WallpaperCell: UICollectionViewCell {
             wallpaperImageView.clipsToBounds = true
             
             // Requesting for the image from the Web.
-            let request = NSURLRequest(URL: wallpaper.highResolutionImageURL)
-            wallpaperImageView.setImageWithURLRequest(request, placeholderImage: nil, success: {(request:NSURLRequest!,response:NSHTTPURLResponse?, image:UIImage!) -> Void in
+            let request = URLRequest(url: wallpaper.highResolutionImageURL as URL)
+            wallpaperImageView.setImageWith(request, placeholderImage: nil, success: {(request:URLRequest!,response:HTTPURLResponse?, image:UIImage!) -> Void in
                 if response != nil {
                     self.wallpaperImageView.image = image
                 }
@@ -41,7 +41,7 @@ class WallpaperCell: UICollectionViewCell {
     }
     
     override func awakeFromNib() {
-        self.contentView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
+        self.contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         self.contentView.translatesAutoresizingMaskIntoConstraints = true
     }
 }

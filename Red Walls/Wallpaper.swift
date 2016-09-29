@@ -11,8 +11,8 @@ import UIKit
 // This class represents a single wallpaper object
 class Wallpaper: NSObject, NSCoding {
     var username: String
-    var sourceImageURL: NSURL
-    var highResolutionImageURL: NSURL
+    var sourceImageURL: URL
+    var highResolutionImageURL: URL
     var title: String
     var id: String
     var numLikes: Int
@@ -27,26 +27,28 @@ class Wallpaper: NSObject, NSCoding {
         username = dataDict["author"] as! String
         
         // Set to placeholder images first. Then make the call to fetch the actual image.
-        highResolutionImageURL = NSURL(string: "http://i.imgur.com/XLzAkpK.jpg")!
-        sourceImageURL = NSURL(string: "http://i.imgur.com/XLzAkpK.jpg")!
+        highResolutionImageURL = URL(string: "http://i.imgur.com/XLzAkpK.jpg")!
+        sourceImageURL = URL(string: "http://i.imgur.com/XLzAkpK.jpg")!
         
-        var imagesDict = dataDict["preview"]?["images"]
+        let previewDict = dataDict["preview"] as? NSDictionary
+        let imagesDict = previewDict?["images"] as? NSArray
+        var newDict: NSDictionary = NSDictionary()
         if imagesDict != nil {
-            imagesDict = (imagesDict as! NSArray)[0] as! NSDictionary
+            newDict = (imagesDict)?[0] as! NSDictionary
         }
         
         // Fetching the actual image.
         if imagesDict != nil {
-            let resolutionsArray = (imagesDict!!["resolutions"] as! NSArray)
+            let resolutionsArray = (newDict["resolutions"] as! NSArray)
             if resolutionsArray.count > 0 {
                 let urlDict = resolutionsArray[resolutionsArray.count - 1] as! NSDictionary
                 let tempString = urlDict["url"] as! String
-                let urlString = tempString.stringByReplacingOccurrencesOfString("amp;", withString: "")
-                highResolutionImageURL = NSURL(string: urlString)!
+                let urlString = tempString.replacingOccurrences(of: "amp;", with: "")
+                highResolutionImageURL = URL(string: urlString)!
                 
-                let sourceDict = imagesDict!!["source"] as! NSDictionary
+                let sourceDict = newDict["source"] as! NSDictionary
                 let sourceUrlString = sourceDict["url"] as! String
-                sourceImageURL = NSURL(string: sourceUrlString)!
+                sourceImageURL = URL(string: sourceUrlString)!
             }
         }
         
@@ -61,25 +63,25 @@ class Wallpaper: NSObject, NSCoding {
     
     // Decodes the values
     required init(coder decoder: NSCoder) {
-        username = decoder.decodeObjectForKey("author") as! String
-        sourceImageURL = decoder.decodeObjectForKey("sourceURL") as! NSURL
-        highResolutionImageURL = decoder.decodeObjectForKey("resolutionURL") as! NSURL
-        title = decoder.decodeObjectForKey("title") as! String
-        id = decoder.decodeObjectForKey("id") as! String
-        numLikes = decoder.decodeIntegerForKey("ups")
-        numComments = decoder.decodeIntegerForKey("num_comments")
-        score = decoder.decodeIntegerForKey("score")
+        username = decoder.decodeObject(forKey: "author") as! String
+        sourceImageURL = decoder.decodeObject(forKey: "sourceURL") as! URL
+        highResolutionImageURL = decoder.decodeObject(forKey: "resolutionURL") as! URL
+        title = decoder.decodeObject(forKey: "title") as! String
+        id = decoder.decodeObject(forKey: "id") as! String
+        numLikes = decoder.decodeInteger(forKey: "ups")
+        numComments = decoder.decodeInteger(forKey: "num_comments")
+        score = decoder.decodeInteger(forKey: "score")
     }
     
     // Encodes the values
-    func encodeWithCoder(coder: NSCoder) {
-        coder.encodeObject(self.username, forKey: "author")
-        coder.encodeObject(self.sourceImageURL, forKey: "sourceURL")
-        coder.encodeObject(self.highResolutionImageURL, forKey: "resolutionURL")
-        coder.encodeObject(self.title, forKey: "title")
-        coder.encodeObject(self.id, forKey: "id")
-        coder.encodeInteger(self.numLikes, forKey: "ups")
-        coder.encodeInteger(self.numComments, forKey: "num_comments")
-        coder.encodeInteger(self.score, forKey: "score")
+    func encode(with coder: NSCoder) {
+        coder.encode(self.username, forKey: "author")
+        coder.encode(self.sourceImageURL, forKey: "sourceURL")
+        coder.encode(self.highResolutionImageURL, forKey: "resolutionURL")
+        coder.encode(self.title, forKey: "title")
+        coder.encode(self.id, forKey: "id")
+        coder.encode(self.numLikes, forKey: "ups")
+        coder.encode(self.numComments, forKey: "num_comments")
+        coder.encode(self.score, forKey: "score")
     }
 }
